@@ -6,6 +6,7 @@ import scala.io.Source
 
 object MapRed {
   private val stopWords = Source.fromResource("stop_words.txt").getLines.toSeq
+
   def isStopWord(word: String): Boolean = stopWords.contains(word)
 
   def words(lines: GenSeq[String]): GenSeq[String] =
@@ -21,7 +22,7 @@ object MapRed {
 
   def main(args: Array[String]): Unit = {
     val fileIterator = Source.fromResource("SHAKESPEARE.txt").getLines
-    val lines = fileIterator.toVector.par
+    val lines = fileIterator.toVector.par //seq
     val result = reducer(mapper(words(lines)))
     println(result.seq.toList.sortBy(-_._2).take(100))
   }
